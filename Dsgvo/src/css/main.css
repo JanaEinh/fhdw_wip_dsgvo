@@ -1,0 +1,97 @@
+.logo {
+	margin-bottom: 2%;
+}
+
+.field_description {
+	margin-top: -4%;
+	margin-left: 10%;
+}
+
+.header_image {
+	width: 100%;	
+}
+
+.header {
+	font-weight: bold;
+	margin-left: 10%;
+	margin-bottom: 4%;
+	font-family: Arial;
+	font-size: 18px;
+}
+
+.inputs_customer{
+	margin-top: 4%;
+	margin-bottom: 4%;
+    width: 80%;
+    height: 40%;
+    margin-left: 10%;
+    border-radius: 30px;
+    padding-top: 1%;
+    background-color: #dadada;
+    box-shadow: 0px 0px 5px 0px black;
+}
+
+table {
+	border-collapse: collapse;
+    height: 100%;
+    width: 90%;
+    margin-left: 5%;
+	
+}
+
+td {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
+
+
+input: disabled {
+	background-color: white;
+}
+
+.description {
+	width: 25%;
+	vertical-align: top;
+	padding-top: 7px;
+}
+
+.buttons {
+	float: left;
+	display: inline;
+	margin-left: 5%;
+}
+
+.button_start {
+	width: 200px;
+	height: 70px;
+	margin-bottom: 10px;
+	background-color: 004b87;
+	color: white;
+	font-family: Arial;
+	font-weight: bold;
+	border: 0px;
+	border-radius: 15px;
+	box-shadow: 0px 0px 5px 0px black;
+	font-size: 18px;
+}
+
+
+.text-center {
+	font-size: 25;
+    font-weight: bold;
+}
+
+.fixed-bottom{
+	position: fixed;
+    right: 0;
+    bottom: 45px !important;
+    left: 0;
+    z-index: 1030;
+    margin-left: 10% !important;
+    margin-right: 10% !important;
+}
+
+button:focus {
+	outline-style: none;
+}
