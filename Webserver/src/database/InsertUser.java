@@ -1,0 +1,46 @@
+//Author: Hasan
+
+package database;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class InsertUser {
+	private Connection connect() {
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		String url = "jdbc:sqlite:C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\fhdw_wip_dsgvo\\Webserver\\src\\userDatabase_notencrypted.db";
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return conn;
+	}
+
+	public void insert(int Id, String username, String password) {
+		String insertStatement = "INSERT INTO Users(Id,username,password)" + "VALUES(?,?,?)";
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(insertStatement)) {
+			pstmt.setInt(1, Id);
+			pstmt.setString(2, username);
+			pstmt.setString(3, password);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public static void main(String[] args) {
+
+		InsertUser app = new InsertUser();
+		app.insert(2, "Niklas", "Fi$chbach2018!");
+		app.insert(3, "Jana", "Fi$chbach2018!");
+		app.insert(4, "TestUser", "TestPasswort!");
+	}
+}

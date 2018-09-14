@@ -1,0 +1,27 @@
+<!-- Template for step 3: Showing customer data -->
+
+<div>
+	<div class="div_customer_data">
+		<textarea class="output_customer_data"
+			ng-bind="CTRLStep3Controller.emailFetchResult"> </textarea>
+	</div>
+</div>
+
+<div class="wrapper_email_customer">
+	<div class="wrapper_input_step3">
+		<p class="text_step3">Möchte der Kunde diese Informationen per
+			Email erhalten?</p>
+		<input class="input_email_step3" type="email"
+			ng-model="CTRLStep3Controller.email"></input> <input
+			type="checkbox" ng-model="CTRLStep3Controller.updateEmail"
+			ng-true-value="'YES'" ng-false-value="'NO'">Email-Adresse im
+		System updaten</input>
+	</div>
+
+	<div class="wrapper_btn_step3">
+		<button class="btn_step3" ng-click="CTRLStep3Controller.goToStep4()">Daten
+			an Kunden senden</button>
+	</div>
+
+</div>
+

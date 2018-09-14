@@ -1,53 +1,23 @@
-<div class="header">Einsicht von Kundendaten</div>
-<div class="field_description">Auf dieser Seite k&ouml;nnen Sie
-	alle gespeicherten Daten zu einem Kunden einsehen.</div>
+<!-- Start Template: User has to choose between private and commercial customer -->
 
-<form data-ng-init="CTRLMainController.createArrays()"
-	name="CustomerData" ng-submit="CTRLMainController.goToStep2()"
-	onSubmit="return false">
-	<div class="inputs_customer">
-		<table>
-			<tbody>
-				<tr>
-					<td class="description">Vorname:</td>
-					<td><input class="form-control" type="text"
-						ng-model="CTRLMainController.forename" required></td>
-				</tr>
-				<tr>
-					<td class="description">Name:</td>
-					<td><input class="form-control" type="text"
-						ng-model="CTRLMainController.name" required></td>
-				</tr>
-				<tr>
-					<td class="description">Geburtsdatum:</td>
-					<td><input class="form-control" type="text"
-						ng-model="CTRLMainController.birthdate" maxlength="22" required></td>
-				</tr>
-			</tbody>
-		</table>
+<div class="wrapper_text_start">
+	<div class="div_start_text">
+		<h2>Datenverwaltungstool</h2>
+		<br>
+		<p>Hier können Sie die gespeicherten Daten ihrer Kunden gemäß den
+			Richtlinien der Datenschutzgrundverordnung abfragen. Wählen Sie dazu
+			eine der folgenden Optionen aus:</p>
+	</div>
+</div>
+
+<div class="wrapper_btn_start">
+	<div class="div_btn_priv">
+		<button ng-click="CTRLStartController.goToStep1Priv()">Daten
+			von Privatkunde abfragen</button>
 	</div>
 
-	<div class="row margin-row fixedRow fixed-bottom flex-down">
-
-		<table style="margin-left: 0; width: 100%">
-			<tr>
-				<td style="text-align: left; width: 33%;">
-					<button type="button" class="button_start" data-toggle="modal"
-						data-target="#abbrechenDialog">Abbrechen</button>
-					</div>
-				</td>
-
-				<td style="text-align: right; width: 33%;">
-					<div>
-						<button type="submit" class="button_start">
-							Kundendaten<br>anzeigen
-						</button>
-					</div>
-				</td>
-			</tr>
-		</table>
-
+	<div class="div_btn_comp">
+		<button ng-click="CTRLStartController.goToStep1Comp()">Daten
+			von Firmenkunde abfragen</button>
 	</div>
-</form>
-
-</html>
+</div>

@@ -1,14 +1,9 @@
 package webserver;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,21 +13,34 @@ import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoHTTPD.Response.Status;
 
 import email.EmailContent;
+import email.FetchMail;
 import email.SendMail;
+import mail_converter.StringConverter;
+import pdf_generator.PDFCreator;
+import mail_converter.CustomerRelatedData;
+import database.QueryApp;
+
+/* Main Class */
+/* Webserver for hosting Dsgvo Application and doing the email communication */
 
 public class KioskServer extends NanoHTTPD {
 
 	public String[] allowedIPS = { "127.0.0.1" };
+	private String webAppPath = "C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\fhdw_wip_dsgvo\\Dsgvo\\src";
+	// For Response Email
+	private CustomerRelatedData emailContentCRD = null;
 
+	// starts the server
 	public KioskServer(int port) {
 		super(port);
 		try {
-			start(100000, false);
+			start(5000000, false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	// processes the requests to the server
 	@Override
 	public Response serve(IHTTPSession session) {
 		String[] splits = session.getUri().split("/", 0);
@@ -41,27 +49,38 @@ public class KioskServer extends NanoHTTPD {
 			String methodID = splits[1];
 			if (authorize(getRemoteIp(session.getHeaders()))) {
 				if (methodID.equalsIgnoreCase("sendmail")) {
+					// Send email
 					return newFixedLengthResponse(sendEmail(session));
+				} else if (methodID.equalsIgnoreCase("fetchmail")) {
+					// Fetch email
+					return newFixedLengthResponse(fetchEmail(session));
+				} else if (methodID.equalsIgnoreCase("checklogin")) {
+					// Check if login data are correct
+					return newFixedLengthResponse(checkLogin(session));
 				} else if (methodID.equalsIgnoreCase("status")) {
+					// Status of server for testing
 					return newFixedLengthResponse(
 							"OK <br>Remote-IP: " + getRemoteIp(session.getHeaders()) + "<br>AccessGranted: ");
 				} else {
+					// show Dsgvo Application content
 					return parseWebAppContent(splits, methodID);
 				}
 			} else {
 				return newFixedLengthResponse("IP NOT ALLOWED");
 			}
 		} else {
-			return newFixedLengthResponse("PING FAILED");
+			return newFixedLengthResponse("UNKNOWN COMMAND");
 		}
 	}
 
-	private String sendEmail(IHTTPSession session) {
+	private String checkLogin(IHTTPSession session) {
+		String result = "";
 		try {
 			if (session.getMethod() == Method.POST) {
 				Map<String, String> files = new HashMap<String, String>();
 				session.parseBody(files);
 
+				// Get HTTP Post parameters
 				String postBody = session.getQueryParameterString();
 
 				if (postBody == null) {
@@ -71,20 +90,148 @@ public class KioskServer extends NanoHTTPD {
 
 				if (postBody != null && postBody.startsWith("{")) {
 					JSONObject obj = new JSONObject(postBody);
-					EmailContent ec = new EmailContent(obj);
-					boolean erg = SendMail.sendMail(ec.getSubject(), ec.getContent());
-					return "OK";
+					// get username and password out of HTTP Post data
+					String email = obj.get("email").toString();
+					String password = obj.getString("password").toString();
+
+					// Check if login data are correct
+					QueryApp qa = new QueryApp();
+					String pw_db = qa.getUserPassword(email);
+					if (pw_db.equals(password)) {
+						// if the two passwords equal, login data are correct
+						result = "OK";
+					} else {
+						result = "NOT OK";
+					}
 				} else {
-					SendMail.sendMail("Testmail", "Testcontent");
-					return "TEST OK";
+					return "No Data input";
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "ERROR";
+		return result;
 	}
 
+	// Fetch Email from Inbox
+	private String fetchEmail(IHTTPSession session) {
+		String result = "";
+		try {
+			if (session.getMethod() == Method.POST) {
+				Map<String, String> files = new HashMap<String, String>();
+				session.parseBody(files);
+
+				// Get HTTP Post parameters
+				String postBody = session.getQueryParameterString();
+
+				if (postBody == null) {
+					postBody = files.get("postData");
+					postBody = java.net.URLDecoder.decode(postBody, "UTF-8");
+				}
+
+				if (postBody != null && postBody.startsWith("{")) {
+					JSONObject obj = new JSONObject(postBody);
+					String timestamp = obj.get("timestamp").toString();
+
+					// Fetch Email
+					result = FetchMail.fetchEmail(timestamp);
+
+				} else {
+					return "NO HTTP POST DATA";
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "FETCH MAIL ERROR";
+		}
+
+		// Customer Related Data is needed for PDF creation
+		emailContentCRD = StringConverter.parseStringToCustomerData(result);
+		// String is already formatted
+		return StringConverter.parseStringFromMail(result);
+	}
+
+	// Send Email
+	private String sendEmail(IHTTPSession session) {
+		try {
+			if (session.getMethod() == Method.POST) {
+				Map<String, String> files = new HashMap<String, String>();
+				session.parseBody(files);
+
+				// Get HTTP Post Parameters
+				String postBody = session.getQueryParameterString();
+
+				if (postBody == null) {
+					postBody = files.get("postData");
+					postBody = java.net.URLDecoder.decode(postBody, "UTF-8");
+				}
+
+				String email_customer = "";
+				String attachmentPath = "";
+				if (postBody != null && postBody.startsWith("{")) {
+					JSONObject obj = new JSONObject(postBody);
+					if (obj.has("email")) {
+						// if email key is specified, mail should be sent to customer
+						email_customer = obj.get("email").toString();
+						attachmentPath = PDFCreator.generatePDFFromCustomerData(emailContentCRD);
+					} else {
+						// mail to server, no customer email address or attachment needed
+						email_customer = "";
+						obj.put("email", email_customer);
+						attachmentPath = "";
+					}
+					obj.put("attachmentPath", attachmentPath);
+
+					EmailContent ec = new EmailContent(obj);
+					// Send Email
+					SendMail.sendMail(ec.getSubject(), ec.getContent(), ec.getTimestamp(), email_customer,
+							attachmentPath);
+					return "OK";
+				} else {
+					SendMail.sendMail("Testmail", "Testcontent", "Today", "", "");
+					return "TEST OK";
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "SEND MAIL ERROR";
+		}
+		return "OK";
+	}
+
+	// Parses Dsgvo Web Application content
+	private Response parseWebAppContent(String[] splits, String methodID) {
+		FileInputStream fis = null;
+		StringBuilder fileURL = new StringBuilder();
+		for (int i = 1; i < splits.length; i++) {
+			fileURL.append("\\");
+			fileURL.append(splits[i]);
+		}
+
+		// standard main page is index.html
+		if (methodID.equalsIgnoreCase("dsgvo")) {
+			fileURL = new StringBuilder();
+			fileURL.append("\\index.html");
+		}
+		try {
+			if (!fileURL.toString().isEmpty()) {
+				File f = new File(webAppPath + fileURL.toString());
+				if (f.exists()) {
+					fis = new FileInputStream(f);
+					return newFixedLengthResponse(Status.OK, getMimeType(f.getAbsolutePath()), fis, f.length());
+				} else {
+					return newFixedLengthResponse(Status.NOT_FOUND, "text/plain", "File not found");
+				}
+			} else {
+				return newFixedLengthResponse(Status.NOT_FOUND, "text/plain", "File not found");
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return newFixedLengthResponse(Status.NOT_FOUND, "text/plain", "File not loaded");
+		}
+	}
+
+	// checks if allowed IP is used
 	private boolean authorize(String ip) {
 		if (allowedIPS.length == 0) {
 			return true;
@@ -98,6 +245,7 @@ public class KioskServer extends NanoHTTPD {
 		return false;
 	}
 
+	// returns Mime Type of a file, used for parsing web app content
 	private String getMimeType(String filename) {
 		String ext = filename.substring(filename.length() - 3, filename.length());
 
@@ -116,80 +264,9 @@ public class KioskServer extends NanoHTTPD {
 		}
 	}
 
+	// returns used ip-address
 	private String getRemoteIp(Map<String, String> headers) {
 		return headers.get("http-client-ip");
-	}
-
-	public Response rerouteRequest(String targetURL) {
-		HttpURLConnection connection = null;
-		StringBuilder response = null;
-
-		try {
-			URL url = new URL("http://localhost:62001/" + targetURL);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setConnectTimeout(2000);
-			connection.setReadTimeout(10000);
-			connection.setRequestMethod("GET");
-
-			connection.setUseCaches(false);
-			connection.setDoOutput(false);
-
-			InputStream is = connection.getInputStream();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-			response = new StringBuilder(); // or StringBuffer if
-											// Java version 5+
-
-			String line;
-			while ((line = rd.readLine()) != null) {
-				response.append(line);
-				response.append('\r');
-			}
-
-			rd.close();
-
-			return newFixedLengthResponse(response.toString());
-
-		} catch (Exception e) {
-			return newFixedLengthResponse(Status.NOT_FOUND, "text/plain", "Service not available");
-		} finally {
-			if (connection != null) {
-				connection.disconnect();
-			}
-		}
-
-	}
-
-	private Response parseWebAppContent(String[] splits, String methodID) {
-		FileInputStream fis = null;
-		StringBuilder fileURL = new StringBuilder();
-		for (int i = 1; i < splits.length; i++) {
-			fileURL.append("\\");
-			fileURL.append(splits[i]);
-		}
-
-		// standard is index.html
-		if (methodID.equalsIgnoreCase("dsgvo")) {
-			fileURL = new StringBuilder();
-			fileURL.append("\\index.html");
-		}
-		try {
-			if (!fileURL.toString().isEmpty()) {
-				File f = new File(
-						"C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\fhdw_wip_dsgvo\\fhdw_wip_dsgvo\\Dsgvo\\src"
-								+ fileURL.toString());
-				if (f.exists()) {
-					fis = new FileInputStream(f);
-					return newFixedLengthResponse(Status.OK, getMimeType(f.getAbsolutePath()), fis, f.length());
-				} else {
-					return newFixedLengthResponse(Status.NOT_FOUND, "text/plain", "File not found");
-				}
-			} else {
-				return newFixedLengthResponse(Status.NOT_FOUND, "text/plain", "File not found");
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return newFixedLengthResponse(Status.NOT_FOUND, "text/plain", "File not loaded");
-		}
 	}
 
 }

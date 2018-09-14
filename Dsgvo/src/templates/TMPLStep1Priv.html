@@ -1,0 +1,39 @@
+<!-- Template for input of private customer data -->
+
+<div class="header_step1">Einsicht von Kundendaten -
+	Privatpersonen:</div>
+
+<div class="description_step1">Auf dieser Seite k&ouml;nnen Sie
+	alle gespeicherten Kundendaten zu einer Privatperson einsehen.</div>
+
+<form name="CustomerData"
+	ng-submit="CTRLStep1PrivController.goToStep2()" onSubmit="return false">
+	<div class="inputs_customer">
+		<table>
+			<tbody>
+				<tr>
+					<td class="description_input">Vorname:</td>
+					<td><input class="form-control" type="text"
+						ng-model="CTRLStep1PrivController.forename" required></td>
+				</tr>
+				<tr>
+					<td class="description_input">Name:</td>
+					<td><input class="form-control" type="text"
+						ng-model="CTRLStep1PrivController.name" required></td>
+				</tr>
+				<tr>
+					<td class="description_input">Geburtsdatum:</td>
+					<td><input class="form-control" type="date"
+						ng-model="CTRLStep1PrivController.birthdate" required></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="div_btn_step1">
+		<button type="submit" class="btn_step1">Kundendaten
+			anfordern</button>
+	</div>
+
+</form>
+

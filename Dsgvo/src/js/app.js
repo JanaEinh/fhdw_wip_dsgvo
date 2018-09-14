@@ -1,2 +1,3 @@
-var app = angular.module("DSGVO_Tool", ['ui.router']);
+/* Definition of Application */
 
+var app = angular.module("DSGVO_Tool", ['ui.router']);
