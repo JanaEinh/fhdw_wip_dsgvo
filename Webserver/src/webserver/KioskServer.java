@@ -173,6 +173,7 @@ public class KioskServer extends NanoHTTPD {
 					if (obj.has("email")) {
 						// if email key is specified, mail should be sent to customer
 						email_customer = obj.get("email").toString();
+						//Hier CustomerDataUpdaten mit der neuen Adresse 
 						attachmentPath = PDFCreator.generatePDFFromCustomerData(emailContentCRD);
 					} else {
 						// mail to server, no customer email address or attachment needed

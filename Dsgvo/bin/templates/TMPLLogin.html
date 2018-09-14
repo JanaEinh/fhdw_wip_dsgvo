@@ -1,0 +1,39 @@
+<!-- Login Template -->
+
+<div class="wrapper_login">
+
+	<div class="wrapper_text_login">
+		<div>
+			<h2>Datenverwaltungstool - Login</h2>
+			<br>
+			<p>Bitte loggen Sie sich mit ihren Zugangsdaten für den
+				hinterlegten Email-Account ein:</p>
+		</div>
+	</div>
+
+	<form ng-submit="CTRLLoginController.goToStart()"
+		onSubmit="return false">
+		<div class="input_login_form">
+			<div class="div_login_mail">
+				Email-Adresse: <br> <input class="input_login" type="text"
+					ng-model="CTRLLoginController.email" required>
+			</div>
+
+			<div>
+				Passwort: <br> <input class="input_login" type="password"
+					ng-model="CTRLLoginController.password" required>
+			</div>
+			<div class="status_login">
+				<p ng-show="CTRLLoginController.showPwIncorrect">Email-Adresse
+					oder Passwort ist falsch! Ungültige Anmeldeversuche:
+					{{CTRLLoginController.invalidLogin}}</p>
+				<p ng-hide="CTRLLoginController.showPwIncorrect"></p>
+			</div>
+
+		</div>
+
+		<div>
+			<button class="btn_login" type="submit">Einloggen</button>
+		</div>
+	</form>
+</div>

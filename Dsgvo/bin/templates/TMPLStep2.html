@@ -1,0 +1,18 @@
+<!-- Template for Step 2: Sending Email to Server and fetching Response -->
+
+<div data-ng-init="CTRLStep2Controller.init()">
+
+	<div class="text-center">
+		<p ng-show="CTRLStep2Controller.emailSentSuccessful"
+			class="main-text status_step2">Die Anfrage wurde gestellt. Bitte
+			haben Sie einen Moment Geduld.</p>
+
+		<p ng-hide="CTRLStep2Controller.emailSentSuccessful"
+			class="main-text status_step2">
+			Aufgrund eines technischen Problems konnten die Daten nicht
+			&uuml;bermittelt werden.<br> Bitte versuchen Sie es zu einem
+			sp&auml;teren Zeitpunkt erneut.<br>
+		</p>
+	</div>
+
+</div>

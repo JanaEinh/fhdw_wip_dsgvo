@@ -1,0 +1,34 @@
+<!-- Template for input of commercial customer data -->
+
+<div class="header_step1">Einsicht von Kundendaten - Unternehmen:</div>
+
+<div class="description_step1">Auf dieser Seite k&ouml;nnen Sie
+	alle gespeicherten Daten zu einem Firmenkunden einsehen.</div>
+
+<form name="CustomerData"
+	ng-submit="CTRLStep1CompController.goToStep2()" onSubmit="return false">
+	<div class="inputs_customer">
+		<table>
+			<tbody>
+				<tr>
+					<td class="description_input">Name:<br>(ohne Rechtsform)
+					</td>
+					<td><input class="form-control" type="text"
+						ng-model="CTRLStep1CompController.name" required></td>
+				</tr>
+				<tr>
+					<td class="description_input">SteuerID:</td>
+					<td><input class="form-control" type="text"
+						ng-model="CTRLStep1CompController.tax_id" required></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="div_btn_step1">
+		<button type="submit" class="btn_step1">Kundendaten
+			anfordern</button>
+	</div>
+</form>
+
+</html>

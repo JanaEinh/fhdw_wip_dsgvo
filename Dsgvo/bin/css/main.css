@@ -1,0 +1,207 @@
+/* CSS Main File for Styling */
+
+/* General Styling */
+h2 {
+	font-family: Arial;
+	font-weight: bold !important;
+}
+
+p {
+	font-size: 110%;
+}
+
+button {
+	height: 15%;
+	background-color: 004b87;
+	color: white;
+	font-size: 150% !important;
+	font-family: Arial;
+	font-weight: bold;
+	border: 0px;
+	border-radius: 15px !important;
+	box-shadow: 0px 0px 5px 0px black;
+}
+
+button:focus {
+	outline-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	height: 100%;
+	width: 90%;
+	margin-left: 5%;
+}
+
+td {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
+
+input: disabled {
+	background-color: white;
+}
+
+.logo {
+	margin-bottom: 2%;
+}
+
+.header_image {
+	width: 100%;
+}
+
+/* Styling for Login Screen */
+.wrapper_login {
+	text-align: center;
+}
+
+.wrapper_text_login {
+	display: inline-block;
+}
+
+.input_login_form {
+	display: inline-block;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	width: 40%;
+	height: 30%;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	font-size: 110%;
+	border-radius: 30px;
+	background-color: #dadada;
+	box-shadow: 0px 0px 5px 0px black;
+}
+
+.div_login_mail {
+	margin-bottom: 5%;
+}
+
+.input_login {
+	width: 80%;
+}
+
+.status_login {
+	color: red;
+}
+
+.btn_login {
+	height: 10%;
+}
+
+/* Styling for Start Page */
+.wrapper_text_start {
+	text-align: center;
+}
+
+.div_start_text {
+	display: inline-block;
+	width: 70%;
+	font-family: Arial;
+	font-size: 110%;
+}
+
+.wrapper_btn_start {
+	text-align: center;
+	margin-top: 15%;
+}
+
+.div_btn_priv {
+	display: inline-block;
+}
+
+.div_btn_comp {
+	display: inline-block;
+	margin-left: 10%;
+}
+
+/* Styling for Step 1 Templates */
+.header_step1 {
+	margin-left: 10%;
+	font-weight: bold;
+	font-family: Arial;
+	font-size: 140%;
+}
+
+.description_step1 {
+	margin-left: 10%;
+	font-size: 110%;
+}
+
+.inputs_customer {
+	font-size: 110%;
+	margin-top: 4%;
+	margin-bottom: 4%;
+	margin-left: 10%;
+	width: 80%;
+	padding-top: 1%;
+	height: 40%;
+	border-radius: 30px;
+	background-color: #dadada;
+	box-shadow: 0px 0px 5px 0px black;
+}
+
+.description_input {
+	width: 25%;
+	font-size: 110%;
+}
+
+.div_btn_step1 {
+	float: right;
+	margin-right: 10%;
+}
+
+.btn_step1 {
+	height: 10%;
+	font-size: 130% !important;
+}
+
+/* Styling for Step 2 Template */
+.status_step2 {
+	margin-top: 20%;
+	font-size: 170%;
+	font-family: Arial;
+	font-weight: bold;
+}
+
+/* Styling for Step 3 Template */
+.output_customer_data {
+	width: 90%;
+	height: 70%;
+	overflow: auto;
+	display: inline-block;
+	font-size: 110%;
+}
+
+.div_customer_data {
+	text-align: center;
+}
+
+.wrapper_input_step3 {
+	float: left;
+	margin-left: 5%;
+	display: inline-block;
+}
+
+.input_email_step3 {
+	float: left;
+	width: 70%;
+}
+
+.wrapper_email_customer {
+	text-align: center;
+	margin-top: 2%;
+}
+
+.wrapper_btn_step3 {
+	display: inline-block;
+	float: right;
+	margin-right: 5%;
+}
+
+.btn_step3 {
+	height: 10%;
+}
+
+/* Styling for Step 4 Template */
