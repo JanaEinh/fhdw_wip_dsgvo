@@ -24,7 +24,7 @@ public class FetchMail {
 		String mailStoreType = "imap";
 		String username = "client.dsgvo.testuser1@gmail.com";
 		// Has to be catched out of database
-		String password = "Fi$chbach2018!";
+		String password = "";//Please Insert Password for Mail Account here
 
 		return fetch(host, mailStoreType, username, password, timestamp);
 

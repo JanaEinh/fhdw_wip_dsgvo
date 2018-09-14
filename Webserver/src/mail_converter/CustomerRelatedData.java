@@ -15,6 +15,10 @@ public class CustomerRelatedData {
 		this.invoices = invoices;
 	}
 	
+	public CustomerRelatedData() {
+		
+	}
+	
 	public String toString() {
 		String customerRelatedDataAsString = "";
 		customerRelatedDataAsString += this.customer.toString();
@@ -63,12 +67,12 @@ public class CustomerRelatedData {
 				}
 			}
 		}
-		customerRelatedDataAsString.replaceAll("Ae", "Ã„");
-		customerRelatedDataAsString.replaceAll("ae", "Ã¤");
-		customerRelatedDataAsString.replaceAll("Oe", "Ã–");
-		customerRelatedDataAsString.replaceAll("oe", "Ã¶");
-		customerRelatedDataAsString.replaceAll("Ue", "Ãœ");
-		customerRelatedDataAsString.replaceAll("ue", "Ã¼");
+//		customerRelatedDataAsString.replaceAll("Ae", "Ä");
+//		customerRelatedDataAsString.replaceAll("ae", "ä");
+//		customerRelatedDataAsString.replaceAll("Oe", "Ö");
+//		customerRelatedDataAsString.replaceAll("oe", "ö");
+//		customerRelatedDataAsString.replaceAll("Ue", "Ü");
+//		customerRelatedDataAsString.replaceAll("ue", "ü");
 		return customerRelatedDataAsString;
 	}
 
