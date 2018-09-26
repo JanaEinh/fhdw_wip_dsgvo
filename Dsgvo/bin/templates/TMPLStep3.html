@@ -7,21 +7,22 @@
 	</div>
 </div>
 
-<div class="wrapper_email_customer">
-	<div class="wrapper_input_step3">
-		<p class="text_step3">Möchte der Kunde diese Informationen per
-			Email erhalten?</p>
-		<input class="input_email_step3" type="email"
-			ng-model="CTRLStep3Controller.email"></input> <input
-			type="checkbox" ng-model="CTRLStep3Controller.updateEmail"
-			ng-true-value="'YES'" ng-false-value="'NO'">Email-Adresse im
-		System updaten</input>
+<form name="input_email_customer"
+	ng-submit="CTRLStep3Controller.goToStep4()" onSubmit="return false">
+	<div class="wrapper_email_customer">
+		<div class="wrapper_input_step3">
+			<p class="text_step3">Möchte der Kunde diese Informationen per
+				Email erhalten?</p>
+			<input class="input_email_step3" type="email"
+				ng-model="CTRLStep3Controller.email" required></input> <input
+				type="checkbox" ng-model="CTRLStep3Controller.updateEmail"
+				ng-true-value="'YES'" ng-false-value="'NO'">Email-Adresse im
+			System updaten</input>
+		</div>
+
+		<div class="wrapper_btn_step3">
+			<button class="btn_step3" type="submit">Daten an Kunden
+				senden</button>
+		</div>
 	</div>
-
-	<div class="wrapper_btn_step3">
-		<button class="btn_step3" ng-click="CTRLStep3Controller.goToStep4()">Daten
-			an Kunden senden</button>
-	</div>
-
-</div>
-
+</form>

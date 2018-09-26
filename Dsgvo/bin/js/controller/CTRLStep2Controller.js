@@ -18,7 +18,8 @@ app.controller('CTRLStep2Controller', [
 			// Returned data from Server
 			ctrl.emailFetchResult = "";
 
-			// Go to next step for showing customer data
+			// Go to next step for showing customer data after several time of
+			// waiting for response
 			ctrl.goToStep3 = function() {
 				ctrl.emailFetchResult = ctrl.emailFetchResult.replace('\n',
 						'<br>');

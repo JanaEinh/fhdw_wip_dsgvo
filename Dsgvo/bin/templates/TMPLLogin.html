@@ -24,6 +24,7 @@
 					ng-model="CTRLLoginController.password" required>
 			</div>
 			<div class="status_login">
+				<!-- Shown if Login Data are not correct -->
 				<p ng-show="CTRLLoginController.showPwIncorrect">Email-Adresse
 					oder Passwort ist falsch! Ungültige Anmeldeversuche:
 					{{CTRLLoginController.invalidLogin}}</p>

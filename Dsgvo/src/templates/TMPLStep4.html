@@ -3,13 +3,16 @@
 <div>
 	<div class="text-center">
 		<p ng-show="CTRLStep4Controller.emailSentSuccessful"
-			class="main-text status_step2">Die Email an den Kunden wurde erfolgreich versendet.</p>
+			class="main-text status_step2">Die Email an den Kunden wurde
+			erfolgreich versendet.</p>
 
 		<p ng-hide="CTRLStep4Controller.emailSentSuccessful"
-			class="main-text status_step2">
-			Aufgrund eines technischen Problems konnte keine Email an den Kunden verschickt werden.<br> Bitte versuchen Sie es zu einem
-			sp&auml;teren Zeitpunkt erneut.<br>
-		</p>
+			class="main-text status_step2">Es wurde keine Email an den Kunden
+			verschickt.</p>
 	</div>
 
+	<div class="wrapper_btn_again">
+		<button ng-click="CTRLStep4Controller.goToStart()">Weitere
+			Daten abfragen</button>
+	</div>
 </div>

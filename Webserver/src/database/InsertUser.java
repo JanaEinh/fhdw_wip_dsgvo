@@ -14,7 +14,7 @@ public class InsertUser {
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		String url = "jdbc:sqlite:C:\\Users\\niklas.frank\\Documents\\Theoriephase\\4. Semester\\WIP Projekt\\GitHub Projekt\\fhdw_wip_dsgvo\\Webserver\\src\\userDatabase_notencrypted.db";
+		String url = "jdbc:sqlite:C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\fhdw_wip_dsgvo\\Webserver\\src\\userDatabase_notencrypted.db";
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url);
@@ -42,5 +42,6 @@ public class InsertUser {
 		app.insert(2, "Niklas", "Fi$chbach2018!");
 		app.insert(3, "Jana", "Fi$chbach2018!");
 		app.insert(4, "TestUser", "TestPasswort!");
+		app.insert(5, "client.dsgvo.testuser1@gmail.com", "Fi$chbach2018!");
 	}
 }

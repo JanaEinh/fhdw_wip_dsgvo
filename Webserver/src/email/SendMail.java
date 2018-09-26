@@ -17,6 +17,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import database.QueryApp;
+
 /* Class to send an email to server or customer */
 
 public class SendMail {
@@ -26,9 +28,11 @@ public class SendMail {
 	public static boolean sendMail(String subject, String content, String timestamp, String email,
 			String attachmentPath) {
 
-		final String username = "client.dsgvo.testuser1@gmail.com";
-		// Has to catched from database
-		final String password = ""; //please insert
+		String username = "client.dsgvo.testuser1@gmail.com";
+
+		// Catch login password for email account from database
+		QueryApp qa = new QueryApp();
+		final String password = qa.getUserPassword(username);
 
 		// Email properties
 		Properties props = new Properties();

@@ -33,7 +33,7 @@ app.controller('CTRLStep1PrivController', [
 						// Needed for later identification of customer data
 						data3 : ctrl.content
 					});
-				}, 3000);
+				}, 4000);
 			}
 
 			// Send Email with query parameters to server

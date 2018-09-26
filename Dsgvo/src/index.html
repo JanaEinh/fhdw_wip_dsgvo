@@ -17,17 +17,21 @@
 <script src="js/app.js"></script>
 <script src="js/routes.js"></script>
 
-<!-- bootstrap: library for styling -->
+<!-- jquery: javascript library -->
 <script src="js/jquery/jquery.min.js"></script>
+
+<!-- bootstrap: library for styling -->
 <script src="js/bootstrap/bootstrap.min.js"></script>
 <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
 
 <!-- Services -->
 <script src="js/SVCConfigurator.js"></script>
 
-<!-- Controllers -->
+<!-- Javascirpt library for AES Encryption: Used for encrypting login password -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+
+<!-- Controllers -->
 <script src="js/controller/CTRLLoginController.js"></script>
 <script src="js/controller/CTRLStartController.js"></script>
 <script src="js/controller/CTRLStep1PrivController.js"></script>
@@ -42,11 +46,11 @@
 
 <body ng-controller="CTRLLoginController as CTRLLoginController">
 
-	<!-- Das Bild mit dem Logo-Header muss in den Ordner ../src/img abgelegt werden. -->
+	<!-- The picture with logo header has to be saved in the folder ../src/img. -->
 	<div class="logo">
 		<img class="header_image" src="img/Logozeile.png">
 	</div>
-	<!-- View Content -->
+	<!-- View Content: Templates of different steps are show in the ui-view element -->
 	<ui-view></ui-view>
 	<!-- /#View Content -->
 

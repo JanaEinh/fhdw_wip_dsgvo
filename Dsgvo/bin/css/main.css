@@ -116,7 +116,7 @@ input: disabled {
 	margin-left: 10%;
 }
 
-/* Styling for Step 1 Templates */
+/* Styling for Step 1 Template */
 .header_step1 {
 	margin-left: 10%;
 	font-weight: bold;
@@ -168,7 +168,7 @@ input: disabled {
 /* Styling for Step 3 Template */
 .output_customer_data {
 	width: 90%;
-	height: 70%;
+	height: 65%;
 	overflow: auto;
 	display: inline-block;
 	font-size: 110%;
@@ -205,3 +205,7 @@ input: disabled {
 }
 
 /* Styling for Step 4 Template */
+.wrapper_btn_again {
+	text-align: center;
+	margin-top: 10%;
+}

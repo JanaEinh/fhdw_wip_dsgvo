@@ -36,6 +36,9 @@ app.controller('CTRLLoginController', [ '$http', 'SVCConfigurator', '$state',
 
 			// Checks if login data are correct
 			ctrl.checkLoginData = function() {
+				// Encryption in Login Database is not implemented yet. Will be
+				// activated in productive use of Tool.
+
 				/*
 				 * ctrl.password = CryptoJS.AES.encrypt(ctrl.hashString,
 				 * ctrl.password);
@@ -54,6 +57,7 @@ app.controller('CTRLLoginController', [ '$http', 'SVCConfigurator', '$state',
 					data : loginContent,
 				}).then(function successCallback(response) {
 					if (response.data == ("OK")) {
+						// HTTP Request responses true if login data are correct
 						ctrl.loginSuccess = true;
 					} else {
 						ctrl.loginSuccess = false;

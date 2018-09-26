@@ -20,7 +20,7 @@ import mail_converter.StringConverter;
 
 public class PDFCreator {
 	
-	private static final String PDF_PATH = "C://Users/niklas.frank/Documents/Theoriephase/4. Semester/WIP Projekt/PDFs/";
+	private static final String PDF_PATH = "C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\PDFs\\";
 	
 //	public static void main(String args[]) {
 //		String testkundePrivat = "Timm;Reinholdt;1997-09-13;+4917698765421;Timm.Reinholdt@gmail.com;None;None;None;Detmolderstrasse;48;33102;Paderborn;1;2018-08-30;20000;Busdorfmauer;22;33098;Paderborn - Kernstadt;2;2018-08-30;2018-08-31;2018-09-01;1;3;2018-09-01;1500;30 Tage Netto;Herzlichen Glueckwunsch, ist 500 EUR guenstiger geworden!;2;\n" + 
@@ -77,10 +77,10 @@ public class PDFCreator {
 	    
 	    pdd.setAuthor("Malermeister Mustermann");
 	    if(isPrivatePerson) {
-	    	pdd.setTitle("Kundenbezogene Daten für " + last_name + ", " + first_name);
+	    	pdd.setTitle("Kundenbezogene Daten fÃ¼r " + last_name + ", " + first_name);
 	    }
 	    else {
-	    	pdd.setTitle("Kundenbezogene Daten für " + company_name + " " + legal_form);
+	    	pdd.setTitle("Kundenbezogene Daten fÃ¼r " + company_name + " " + legal_form);
 	    }		
 	    
 	    PDPage titlePage = document.getPage(0);
@@ -89,7 +89,7 @@ public class PDFCreator {
 	    
 	    csBasicData.beginText();
 	    
-    	String titlePart1 = "Kundenbezogene Daten für ";
+    	String titlePart1 = "Kundenbezogene Daten fÃ¼r ";
 	    String titlePart2;
 	    String heading = "Generelle Daten: ";
 	    String line1;
@@ -200,15 +200,15 @@ public class PDFCreator {
 	    	String offerTitle = "Angebot Nr. " + i +": ";
 	    	String offerLine1 = "Angebotsnummer: ";
 	    	String offerLine2 = "Erstelldatum: ";
-	    	String offerLine3 = "Geschätzter Preis: ";
+	    	String offerLine3 = "GeschÃ¤tzter Preis: ";
 	    	String offerLine4 = "An folgender Adresse: ";
 	    	
 	    	String orderTitle = "Auftrag Nr. ";
 	    	String orderLine1 = "Auftragsnummer: ";
 	    	String orderLine2 = "Erstelldatum: ";
-	    	String orderLine3 = "Beginn der Ausführung: ";
-	    	String orderLine4 = "Ende der Ausführung: ";
-	    	String orderLine5 = "Zugehörige Angebotsnummer: ";
+	    	String orderLine3 = "Beginn der AusfÃ¼hrung: ";
+	    	String orderLine4 = "Ende der AusfÃ¼hrung: ";
+	    	String orderLine5 = "ZugehÃ¶rige Angebotsnummer: ";
 	    	
 	    	String invoiceTitle = "Rechnung Nr. ";
 	    	String invoiceLine1 = "Rechnungsnummer: ";
@@ -216,7 +216,7 @@ public class PDFCreator {
 	    	String invoiceLine3 = "Rechnungsbetrag: ";
 	    	String invoiceLine4 = "Zahlungsbedingungen: ";
 	    	String invoiceLine5 = "Kommentar: ";
-	    	String invoiceLine6 = "Zugehörige Auftragsnummer: ";
+	    	String invoiceLine6 = "ZugehÃ¶rige Auftragsnummer: ";
 	    	
 	    	boolean hasCorrespondingOrder = false;
 	    	int indexOfCorrespondingOrder = 10;
@@ -252,7 +252,7 @@ public class PDFCreator {
 	    	currentCS.setFont(PDType1Font.HELVETICA_BOLD, 28);
 		    currentCS.newLineAtOffset(50, 750);
 		    currentCS.setLeading(30.625f);
-		    currentCS.showText("Gespeicherte Angebote, Aufträge");
+		    currentCS.showText("Gespeicherte Angebote, AuftrÃ¤ge");
 		    currentCS.newLine();
 		    currentCS.showText("und Rechnungen:");
 		    
@@ -290,7 +290,7 @@ public class PDFCreator {
 	    	currentCS.newLine();
 	    	currentCS.showText(date_of_creation);
 	    	currentCS.newLine();
-	    	currentCS.showText(gross_price + "€");
+	    	currentCS.showText(gross_price + "â‚¬");
 	    	currentCS.newLine();
 	    	currentCS.showText(real_estate_adress);
 	    	
@@ -427,9 +427,9 @@ public class PDFCreator {
 			    	currentCS.newLineAtOffset(270, 220);
 			    	currentCS.showText(invoiceID);
 			    	currentCS.newLine();
-			    	currentCS.showText(amount);
-			    	currentCS.newLine();
 			    	currentCS.showText(invoice_date);
+			    	currentCS.newLine();
+			    	currentCS.showText(amount + "â‚¬");
 			    	currentCS.newLine();
 			    	currentCS.showText(incoterms);
 			    	currentCS.newLine();

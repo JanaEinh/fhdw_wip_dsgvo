@@ -16,7 +16,7 @@ public class SQLiteJDBCDriverConnection {
 		}
 		Connection conn = null;
 		try {
-			String url = "jdbc:sqlite:C:\\Users\\niklas.frank\\Documents\\Theoriephase\\4. Semester\\WIP Projekt\\GitHub Projekt\\fhdw_wip_dsgvo\\Webserver\\src\\userDatabase_notencrypted.db";
+			String url = "jdbc:sqlite:C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\fhdw_wip_dsgvo\\Webserver\\src\\userDatabase_notencrypted.db";
 			conn = DriverManager.getConnection(url);
 			System.out.println("Connection to SQLite has been established.");
 		} catch (SQLException e) {

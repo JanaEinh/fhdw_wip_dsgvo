@@ -1,4 +1,6 @@
-/mail_converter/
-/pdf_generator/
+/database/
 /email/
+/mail_converter/
+/main.class
+/pdf_generator/
 /webserver/

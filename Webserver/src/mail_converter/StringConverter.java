@@ -14,7 +14,7 @@ public class StringConverter {
 	public static String parseStringFromMail(String emailContent) {
 		System.out.println("Test Hallo?! " + emailContent);
 		if(emailContent.startsWith("Keine Daten gefunden!")) {
-			return "Zu diesen Eingaben konnten keine Kundendaten gefunden werden. Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut!";
+			return "Zu diesen Eingaben konnten keine Kundendaten gefunden werden. Bitte Ã¼berprÃ¼fen Sie Ihre Eingaben und versuchen Sie es erneut!";
 		}
 		else if(emailContent.equals("")) {
 			return "Bei der Abfrage kam es zu unerwarteten Problemen. Bitte versuchen Sie es erneut!";
@@ -44,12 +44,12 @@ public class StringConverter {
 		
 		else {
 
-//			emailContent = emailContent.replaceAll("Ae", "Ä");
-//			emailContent = emailContent.replaceAll("ae", "ä");
-//			emailContent = emailContent.replaceAll("Oe", "Ö");
-//			emailContent = emailContent.replaceAll("oe", "ö");
-//			emailContent = emailContent.replaceAll("Ue", "Ü");
-//			emailContent = emailContent.replaceAll("ue", "ü");
+//			emailContent = emailContent.replaceAll("Ae", "ï¿½");
+//			emailContent = emailContent.replaceAll("ae", "ï¿½");
+//			emailContent = emailContent.replaceAll("Oe", "ï¿½");
+//			emailContent = emailContent.replaceAll("oe", "ï¿½");
+//			emailContent = emailContent.replaceAll("Ue", "ï¿½");
+//			emailContent = emailContent.replaceAll("ue", "ï¿½");
 			
 			ArrayList<Integer> zeilenumbrueche = new ArrayList<Integer>();
 			ArrayList<String> einzelneDatensaetze = new ArrayList<String>();

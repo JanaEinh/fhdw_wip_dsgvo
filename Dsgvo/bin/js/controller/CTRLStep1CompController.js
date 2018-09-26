@@ -13,8 +13,8 @@ app.controller('CTRLStep1CompController', [ '$state', '$timeout', '$http',
 			ctrl.emailSentSuccessful = null;
 			// Timestamp for identifying response email from Server
 			ctrl.timestamp = null;
-			
-			//Email Content
+
+			// Email Content
 			ctrl.content = "";
 
 			// Go to next step
@@ -25,7 +25,7 @@ app.controller('CTRLStep1CompController', [ '$state', '$timeout', '$http',
 					$state.go('step2', {
 						data1 : ctrl.emailSentSuccessful,
 						data2 : ctrl.timestamp,
-						//Needed for later identification of customer data
+						// Needed for later identification of customer data
 						data3 : ctrl.content
 					});
 				}, 3000);

@@ -26,7 +26,7 @@ import database.QueryApp;
 public class KioskServer extends NanoHTTPD {
 
 	public String[] allowedIPS = { "127.0.0.1" };
-	private String webAppPath = "C:\\Users\\niklas.frank\\Documents\\Theoriephase\\4. Semester\\WIP Projekt\\GitHub Projekt\\fhdw_wip_dsgvo\\Dsgvo\\src";
+	private String webAppPath = "C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\fhdw_wip_dsgvo\\Dsgvo\\src";
 	// For Response Email
 	private CustomerRelatedData emailContentCRD = null;
 
@@ -135,7 +135,6 @@ public class KioskServer extends NanoHTTPD {
 
 					// Fetch Email
 					result = FetchMail.fetchEmail(timestamp);
-
 				} else {
 					return "NO HTTP POST DATA";
 				}
@@ -153,6 +152,7 @@ public class KioskServer extends NanoHTTPD {
 
 	// Send Email
 	private String sendEmail(IHTTPSession session) {
+		String result = "";
 		try {
 			if (session.getMethod() == Method.POST) {
 				Map<String, String> files = new HashMap<String, String>();
@@ -173,31 +173,44 @@ public class KioskServer extends NanoHTTPD {
 					if (obj.has("email")) {
 						// if email key is specified, mail should be sent to customer
 						email_customer = obj.get("email").toString();
-						//Hier CustomerDataUpdaten mit der neuen Adresse 
-						attachmentPath = PDFCreator.generatePDFFromCustomerData(emailContentCRD);
+						String update = obj.getString("update").toString();
+						// if no customer data are found, no email to customer is sent
+						if (update.equals("YES")) {
+							emailContentCRD.getCustomer().setEmail(email_customer);
+						}
+						if (emailContentCRD.getCustomer() != null) {
+							attachmentPath = PDFCreator.generatePDFFromCustomerData(emailContentCRD);
+							obj.put("email", email_customer);
+							obj.put("attachmentPath", attachmentPath);
+							EmailContent ec = new EmailContent(obj);
+							SendMail.sendMail(ec.getSubject(), ec.getContent(), ec.getTimestamp(), email_customer,
+									attachmentPath);
+							result = "OK";
+						} else {
+							result = "NO MAIL TO CUSTOMER";
+						}
 					} else {
 						// mail to server, no customer email address or attachment needed
 						email_customer = "";
 						obj.put("email", email_customer);
 						attachmentPath = "";
-					}
-					obj.put("attachmentPath", attachmentPath);
-
-					EmailContent ec = new EmailContent(obj);
-					// Send Email
-					SendMail.sendMail(ec.getSubject(), ec.getContent(), ec.getTimestamp(), email_customer,
-							attachmentPath);
-					return "OK";
+						obj.put("attachmentPath", attachmentPath);
+						EmailContent ec = new EmailContent(obj);
+						SendMail.sendMail(ec.getSubject(), ec.getContent(), ec.getTimestamp(), email_customer,
+								attachmentPath);
+						result = "OK";
+					}		
 				} else {
 					SendMail.sendMail("Testmail", "Testcontent", "Today", "", "");
-					return "TEST OK";
+					result = "TEST OK";
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "SEND MAIL ERROR";
+			result = "SEND MAIL ERROR";
 		}
-		return "OK";
+		return result;
+		
 	}
 
 	// Parses Dsgvo Web Application content

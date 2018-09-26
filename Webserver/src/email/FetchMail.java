@@ -12,6 +12,8 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import database.QueryApp;
+
 /* Fetching Email Response */
 
 public class FetchMail {
@@ -23,8 +25,13 @@ public class FetchMail {
 		String host = "imap.gmail.com";
 		String mailStoreType = "imap";
 		String username = "client.dsgvo.testuser1@gmail.com";
+
 		// Has to be catched out of database
-		String password = "";//Please Insert Password for Mail Account here
+		String password = "";
+
+		// Catch login password for email account from database
+		QueryApp qa = new QueryApp();
+		password = qa.getUserPassword(username);
 
 		return fetch(host, mailStoreType, username, password, timestamp);
 

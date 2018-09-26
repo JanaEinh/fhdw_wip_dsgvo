@@ -83,6 +83,7 @@ app.controller('CTRLStep3Controller', [
 							+ "\n\nMit freundlichem Gruß,\nMalermeister Mustermann",
 						"timestamp" : "",
 						"email" : ctrl.email,
+						"update" : ctrl.updateEmail,
 				}
 				
 				// HTTP Post request for sending Email to customer
@@ -92,7 +93,11 @@ app.controller('CTRLStep3Controller', [
 					timeout : 5000,
 					data : ctrl.emailContentCustomer,
 				}).then(function successCallback(response) {
-					ctrl.emailSentSuccessful = true;
+					if (response.data == "NO MAIL TO CUSTOMER") {
+						ctrl.emailSentSuccessful = false;
+					} else {
+						ctrl.emailSentSuccessful = true;
+					}
 				}, function errorCallback(response) {
 					ctrl.emailSentSuccessful = false;
 				});
