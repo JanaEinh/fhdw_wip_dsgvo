@@ -1,3 +1,4 @@
+//Author: Niklas
 package pdf_generator;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,28 +21,10 @@ import mail_converter.StringConverter;
 
 public class PDFCreator {
 	
-	private static final String PDF_PATH = "C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\PDFs\\";
-	
-//	public static void main(String args[]) {
-//		String testkundePrivat = "Timm;Reinholdt;1997-09-13;+4917698765421;Timm.Reinholdt@gmail.com;None;None;None;Detmolderstrasse;48;33102;Paderborn;1;2018-08-30;20000;Busdorfmauer;22;33098;Paderborn - Kernstadt;2;2018-08-30;2018-08-31;2018-09-01;1;3;2018-09-01;1500;30 Tage Netto;Herzlichen Glueckwunsch, ist 500 EUR guenstiger geworden!;2;\n" + 
-//				"Timm;Reinholdt;1997-09-13;+4917698765421;Timm.Reinholdt@gmail.com;None;None;None;Detmolderstrasse;48;33102;Paderborn;2;2018-09-07;1000;Busdorfmauer;22;33098;Paderborn - Kernstadt;None;None;None;None;None;None;None;None;None;None;None;\n" + 
-//				"Timm;Reinholdt;1997-09-13;+4917698765421;Timm.Reinholdt@gmail.com;None;None;None;Detmolderstrasse;48;33102;Paderborn;3;2018-09-09;1250;Busdorfmauer;22;33098;Paderborn - Kernstadt;None;None;None;None;None;None;None;None;None;None;None;\n" + 
-//				"";
-//		String testkundeUnternehmen = "None;None;None;+495251396847;Support@Oqusoft.de;Oqusoft;AG;3131123456789;Detmolderstrasse;69;33102;Paderborn;None;None;None;None;None;None;None;None;None;None;None;None;None;None;None;None;None;None;\n";
-//		
-//		CustomerRelatedData customerDataPrivate = StringConverter.parseStringToCustomerData(testkundePrivat);
-//		CustomerRelatedData customerDataCommercial = StringConverter.parseStringToCustomerData(testkundeUnternehmen);
-//		
-//		try {
-//			generatePDFFromCustomerData(customerDataPrivate);
-//			generatePDFFromCustomerData(customerDataCommercial);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
+	private static final String PDF_PATH = "C:\\Users\\niklas.frank\\Documents\\Theoriephase\\4. Semester\\WIP Projekt\\PDFs";
 	
 	public static String generatePDFFromCustomerData(CustomerRelatedData customerData) throws IOException {
+		//Extracting information out of the CustomerRelatedData Object
 		boolean isPrivatePerson = customerData.getCustomer().isPrivatePerson();
 		String first_name = customerData.getCustomer().getFirst_name();
 		String last_name = customerData.getCustomer().getLast_name();
@@ -55,24 +38,25 @@ public class PDFCreator {
 		String house_no = customerData.getCustomer().getHouse_no();
 		String postal_code = customerData.getCustomer().getPostal_code();
 		String city = customerData.getCustomer().getCity();
+		ArrayList<Offer> offers = customerData.getOffers();
+	    ArrayList<Order> orders = customerData.getOrders();
+	    ArrayList<Invoice> invoices = customerData.getInvoices();
 		
 		
 		//Creating PDF document object 
 	    PDDocument document = new PDDocument();
 	    
-	    ArrayList<Offer> offers = customerData.getOffers();
-	    ArrayList<Order> orders = customerData.getOrders();
-	    ArrayList<Invoice> invoices = customerData.getInvoices();
-	    
 	    int offersCount = offers.size();
 	    int ordersCount = orders.size();
 	    int invoicesCount = invoices.size();
 	    
+	    //Creating one blank PDF Page for each Offer plus one title Page
 	    for(int i = 0; i<=offersCount; i++) {
 	    	PDPage blankPage = new PDPage();
 		    document.addPage(blankPage);
 	    }
 	    
+	    //Setting general information about the PDF Document
 	    PDDocumentInformation pdd = document.getDocumentInformation();
 	    
 	    pdd.setAuthor("Malermeister Mustermann");
@@ -83,12 +67,15 @@ public class PDFCreator {
 	    	pdd.setTitle("Kundenbezogene Daten für " + company_name + " " + legal_form);
 	    }		
 	    
+	    //Getting the first Page as Title Page
 	    PDPage titlePage = document.getPage(0);
 	    
+	    //Opening a content stream to write onto the PDF
 	    PDPageContentStream csBasicData = new PDPageContentStream(document, titlePage);
 	    
 	    csBasicData.beginText();
 	    
+	    //Generating the single Strings which are to be shown on the title Page
     	String titlePart1 = "Kundenbezogene Daten für ";
 	    String titlePart2;
 	    String heading = "Generelle Daten: ";
@@ -117,11 +104,12 @@ public class PDFCreator {
 	    	line2Part2 = tax_id;  	
 	    }
 	    
+	    
+	    //Actually write the generated Strings onto the title Page
 	    csBasicData.setFont(PDType1Font.HELVETICA_BOLD, 32);
 	    csBasicData.newLineAtOffset(50, 750);
 	    csBasicData.setLeading(35f);
 	    
-	    //Adding text in the form of string 
 	    csBasicData.showText(titlePart1);
 	    csBasicData.newLine();
 	    csBasicData.showText(titlePart2);
@@ -173,16 +161,20 @@ public class PDFCreator {
 	    csBasicData.endText();
 	    csBasicData.close();
 	    
+	    //Iterating through all offers to write the information about them on the correct Page
 	    for(int i =1; i<=offersCount;i++) {
+	    	//Getting the Page for the current offer and opening a content stream
 	    	PDPage currentPage = document.getPage(i);
 	    	PDPageContentStream currentCS = new PDPageContentStream(document, currentPage);
 	    	
+	    	//Getting the current offer and extracting information about it
 	    	Offer currentOffer = offers.get(i-1);
 	    	String offerID = currentOffer.getId();
 	    	String date_of_creation = currentOffer.getDate_of_creation();
 	    	String gross_price = currentOffer.getGross_price();
 	    	String real_estate_adress = currentOffer.getReal_estate_street() + " " + currentOffer.getReal_estate_house_no() + ", " + currentOffer.getReal_estate_postal_code() + " " + currentOffer.getReal_estate_city();
 	    	
+	    	//Initializing Strings for the information about corresponding offers and invoices which are to be filled with information later on 
 	    	String orderID = null;
     		String orderDate_of_creation = null;
     		String begin_date = null;
@@ -196,7 +188,8 @@ public class PDFCreator {
 			String comment = null;
 			String orderID_fromInvoice = null;
 			ArrayList<String> comments = new ArrayList<String>();
-	    	
+			
+			//Initializing the first Part of each line which is to be Shown on the Page
 	    	String offerTitle = "Angebot Nr. " + i +": ";
 	    	String offerLine1 = "Angebotsnummer: ";
 	    	String offerLine2 = "Erstelldatum: ";
@@ -218,22 +211,32 @@ public class PDFCreator {
 	    	String invoiceLine5 = "Kommentar: ";
 	    	String invoiceLine6 = "Zugehörige Auftragsnummer: ";
 	    	
+	    	//Initializing variables for corresponding orders and invoices
 	    	boolean hasCorrespondingOrder = false;
 	    	int indexOfCorrespondingOrder = 10;
 	    	boolean hasCorrespondingInvoice = false;
 	    	int indexOfCorrespondingInvoice = 10;
 	    	
+	    	//Iterating through all orders to find out whether there is an order which belongs to the current offer
 	    	for(int j = 0; j<ordersCount; j++) {
+	    		//Getting the current order
 	    		Order currentOrder = orders.get(j);
+	    		//Evaluating whether the current orders offer id matches the id of the current offer
 	    		if (offerID.equals(currentOrder.getOffer_id())){
+	    			//Saving the index of the order that corresponds to the current offer
 	    			hasCorrespondingOrder = true;
 	    			indexOfCorrespondingOrder = j;
+	    			//Adding the size of the orders array list to ensure there is no further iteration
 	    			j += ordersCount;
+	    			//Iterating through all invoices to find a correpsonding invoice to the current order
 	    			for(int k = 0; k<invoicesCount;k++) {
+	    				//Getting the current invoice
 	    				Invoice currentInvoice = invoices.get(k);
+	    				//Evaluationg whether the invoices order id matches the id of the current order
 	    				if(currentOrder.getId().equals(currentInvoice.getOrder_id())) {
 	    					hasCorrespondingInvoice = true;
 	    					indexOfCorrespondingInvoice = k;
+	    					//Adding the size of the invoices array list to ensure there is no further iteration
 	    					k += invoicesCount;
 	    				}
 	    				else {
@@ -247,6 +250,7 @@ public class PDFCreator {
 	    		}
 	    	}
 	    	
+	    	//Writing the title on the Page 
 	    	currentCS.beginText();
 	    	
 	    	currentCS.setFont(PDType1Font.HELVETICA_BOLD, 28);
@@ -258,6 +262,7 @@ public class PDFCreator {
 		    
 		    currentCS.endText();
 		    
+		    //Writing the information about the current offer onto the Page
 		    currentCS.beginText();
 		    
 		    currentCS.setFont(PDType1Font.HELVETICA, 20);
@@ -266,6 +271,7 @@ public class PDFCreator {
 		    
 		    currentCS.endText();
 		    
+		    //First the first part of each line is added which describes, what information is shown
 		    currentCS.beginText();
 		    
 	    	currentCS.setFont(PDType1Font.HELVETICA, 16);
@@ -281,6 +287,7 @@ public class PDFCreator {
 	    	
 	    	currentCS.endText();
 	    	
+	    	//And after that the corresponding Value is added 
 	    	currentCS.beginText();
 	    	
 	    	currentCS.setFont(PDType1Font.HELVETICA, 16);
@@ -296,7 +303,9 @@ public class PDFCreator {
 	    	
 	    	currentCS.endText();
 	    	
+	    	//This part is only executed if there is a corresponding Order
 	    	if(hasCorrespondingOrder) {
+	    		//Extracting information from the corresponding order
 	    		Order order = orders.get(indexOfCorrespondingOrder);
 	    		orderID = order.getId();
 	    		orderDate_of_creation = order.getDate_of_creation();
@@ -306,9 +315,10 @@ public class PDFCreator {
 	    		
 	    		orderTitle += indexOfCorrespondingOrder + 1 + ": ";
 	    		
+	    		//Only executed if corresponding invoice
 	    		if(hasCorrespondingInvoice) {
+	    			//Extracting information from the corresponding invoice
 	    			Invoice invoice = invoices.get(indexOfCorrespondingInvoice);
-	    			
 	    			invoiceID = invoice.getId();
 	    			amount = invoice.getAmount();
 	    			invoice_date = invoice.getInvoice_date();
@@ -316,6 +326,7 @@ public class PDFCreator {
 	    			comment = invoice.getComment();
 	    			orderID_fromInvoice = invoice.getOrder_id();
 	    			
+	    			//Splitting the comment in parts of 40 characters max to ensure the fit in the line
 	    			if(comment.length() > 40) {
 	    				int counter = 0;
 	    				for(int l = 0; l<comment.length(); l += 40) {
@@ -343,6 +354,7 @@ public class PDFCreator {
 	    		
 	    	}
 	    	
+	    	//If there is a corresponding order the information about it is written onto the PDF
 	    	if(hasCorrespondingOrder) {
 	    		currentCS.beginText();
 	    		
@@ -386,6 +398,7 @@ public class PDFCreator {
 		    	
 		    	currentCS.endText();
 		    	
+		    	//If there is a corresponding invoice the information about it is written onto the PDF
 		    	if(hasCorrespondingInvoice) {
 		    		currentCS.beginText();
 		    		
@@ -461,7 +474,6 @@ public class PDFCreator {
 			    currentCS.endText();
 	    	}
 	    	
-	    	//System.out.println("Gibt es einen Auftrag? " + hasCorrespondingOrder + indexOfCorrespondingOrder + "Und eine Rechnung? " + hasCorrespondingInvoice + indexOfCorrespondingInvoice);
 	    	currentCS.close();
 	    	
 	    	
@@ -481,8 +493,6 @@ public class PDFCreator {
 	    
 	    //Closing the document  
 	    document.close();
-	    
-	    System.out.println("Dokument gespeichert unter: " + PDF_PATH + filename);
 	    
 	    return (PDF_PATH + filename);
 		

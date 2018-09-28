@@ -8,13 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class InsertUser {
+	
+	private static final String DATABASE_PATH = "C:\\Users\\niklas.frank\\Documents\\Theoriephase\\4. Semester\\WIP Projekt\\\\GitHub Projekt\\fhdw_wip_dsgvo\\Webserver\\src\\userDatabase_notencrypted.db";
+
 	private Connection connect() {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		String url = "jdbc:sqlite:C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\fhdw_wip_dsgvo\\Webserver\\src\\userDatabase_notencrypted.db";
+		String url = "jdbc:sqlite:" + DATABASE_PATH;
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url);

@@ -26,7 +26,7 @@ import database.QueryApp;
 public class KioskServer extends NanoHTTPD {
 
 	public String[] allowedIPS = { "127.0.0.1" };
-	private String webAppPath = "C:\\Users\\Jana\\Documents\\FHDW\\4.Semester\\WIP\\Entwicklung\\fhdw_wip_dsgvo\\Dsgvo\\src";
+	private static final String WEB_APP_PATH = "C:\\Users\\niklas.frank\\Documents\\Theoriephase\\4. Semester\\WIP Projekt\\GitHub Projekt\\fhdw_wip_dsgvo\\Dsgvo\\src";
 	// For Response Email
 	private CustomerRelatedData emailContentCRD = null;
 
@@ -229,7 +229,7 @@ public class KioskServer extends NanoHTTPD {
 		}
 		try {
 			if (!fileURL.toString().isEmpty()) {
-				File f = new File(webAppPath + fileURL.toString());
+				File f = new File(WEB_APP_PATH + fileURL.toString());
 				if (f.exists()) {
 					fis = new FileInputStream(f);
 					return newFixedLengthResponse(Status.OK, getMimeType(f.getAbsolutePath()), fis, f.length());
